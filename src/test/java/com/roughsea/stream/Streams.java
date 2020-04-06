@@ -77,7 +77,7 @@ public class Streams {
 
     @Test
     public void creation() throws IOException {
-        Stream<String> lines = Files.lines(Paths.get("some.txt"));
+//        Stream<String> lines = Files.lines(Paths.get("some.txt"));
         Stream<Path> list = Files.list(Paths.get("/."));
         Stream<Path> walk = Files.walk(Paths.get("/."), 3);
 
