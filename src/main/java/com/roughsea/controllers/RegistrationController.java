@@ -25,7 +25,7 @@ public class RegistrationController {
     public String addUser(User user, Model model){
         System.out.println(user);
 
-        User userFromDb = userRepository.findByUserName(user.getUserName());
+        User userFromDb = userRepository.findByUserName(user.getUsername());
 
         if (userFromDb != null){
             model.addAttribute("message", "User exists");
