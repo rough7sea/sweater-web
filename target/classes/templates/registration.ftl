@@ -2,10 +2,12 @@
 <#import "parts/login.ftl" as form>
 
 <@c.page>
-Registration Page
+    <div class="mb-1">
+        Registration Page
+    </div>
     <#if message??>
         ${message}
     </#if>
-    <@form.login "/registration"/>
+    <@form.login "/registration" true/>
 
 </@c.page>
