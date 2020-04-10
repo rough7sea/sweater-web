@@ -2,11 +2,18 @@
 <#import "parts/login.ftl" as form>
 
 <@c.page>
-    <div class="mb-1">
-        Registration Page
-    </div>
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item active"
+                aria-current="page">Registration Page</li>
+        </ol>
+    </nav>
+
     <#if message??>
-        ${message}
+        <div class="alert alert-danger">
+            ${message}
+        </div>
     </#if>
     <@form.login "/registration" true/>
 

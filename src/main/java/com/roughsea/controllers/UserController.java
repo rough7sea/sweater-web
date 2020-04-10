@@ -66,6 +66,7 @@ public class UserController {
             @RequestParam String password,
             @RequestParam String email
     ){
+
         userService.updateProfile(user, password, email);
 
         return "redirect:/user/profile";
