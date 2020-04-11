@@ -71,12 +71,13 @@
         </#if>
 
         <input type="hidden" name="_csrf" value="${_csrf.token}" />
-        <button class="btn btn-primary"
+        <button class="btn btn-outline-primary"
                 type="submit"><#if isRegisteredForm>Create<#else>Sing In</#if>
         </button>
 
         <#if !isRegisteredForm>
-            <a href="/registration">Add new user</a>
+            <a class="btn btn-outline-primary"
+               href="/registration">Add new user</a>
         </#if>
 
     </form>
