@@ -1,9 +1,6 @@
 package com.roughsea.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,9 +16,13 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "usr")
 @ToString(exclude = "roles")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @Column(name = "user_name")
@@ -42,6 +43,10 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Message> messages;
 
     public boolean isAdmin(){
         return roles.contains(Role.ADMIN);
