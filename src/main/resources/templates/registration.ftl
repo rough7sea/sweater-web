@@ -6,7 +6,9 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item active"
-                aria-current="page">Registration Page</li>
+                aria-current="page">
+                Registration Page
+            </li>
         </ol>
     </nav>
 

@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "usr")
-@ToString(exclude = "roles")
+@ToString(exclude = {"roles", "messages", "subscribers", "subscriptions"})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
 public class User implements UserDetails {

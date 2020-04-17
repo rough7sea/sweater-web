@@ -4,7 +4,12 @@ import com.roughsea.models.Message;
 import com.roughsea.models.User;
 import com.roughsea.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +30,6 @@ import java.util.Set;
 import java.util.UUID;
 
 @Controller
-
 public class MainController {
 
     @Autowired
@@ -42,16 +46,19 @@ public class MainController {
     @GetMapping("/main")
     public String home(
             @RequestParam(required = false, defaultValue = "")String filter,
-            Model model){
+            Model model,
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable
+    ){
 
-        Iterable<Message> messages;
+        Page<Message> page;
 
         if (filter != null && !filter.isEmpty())
-            messages = messageRepository.findByTag(filter);
+            page = messageRepository.findByTag(filter, pageable);
         else
-            messages = messageRepository.findAll();
+            page = messageRepository.findAll(pageable);
 
-        model.addAttribute("messages", messages);
+        model.addAttribute("page", page);
+        model.addAttribute("url", "/main");
         model.addAttribute("filter", filter);
 
         return "main";
@@ -88,7 +95,9 @@ public class MainController {
         return "main";
     }
 
-    private void saveFile(@RequestParam("file") MultipartFile file, @Valid Message message) throws IOException {
+    private void saveFile(
+            @RequestParam("file") MultipartFile file,
+            @Valid Message message) throws IOException {
         if (file != null && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty()){
             File uploadDir = new File(uploadPath);
 
@@ -129,7 +138,6 @@ public class MainController {
     public String updateMessages(
             @AuthenticationPrincipal User currentUser,
             @PathVariable Long user,
-            Model model,
             @RequestParam("id") Message message,
             @RequestParam("text") String text,
             @RequestParam("tag") String tag,
