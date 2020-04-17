@@ -10,14 +10,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.jws.WebParam;
 import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
@@ -25,8 +23,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Controller
 
@@ -117,6 +113,10 @@ public class MainController {
     ){
         Set<Message> messages = user.getMessages();
 
+        model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
+        model.addAttribute("subscribersCount", user.getSubscribers().size());
+        model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
+        model.addAttribute("userChannel", user);
         model.addAttribute("messages",messages);
         model.addAttribute("message",message);
 
@@ -150,6 +150,7 @@ public class MainController {
 
         return "redirect:/user-messages/" + user;
     }
+
 
 
 }

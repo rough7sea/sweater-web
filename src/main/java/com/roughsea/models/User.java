@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -44,9 +45,24 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Message> messages;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = { @JoinColumn(name = "channel_id")},
+            inverseJoinColumns = { @JoinColumn(name = "subscriber_id")}
+    )
+    private Set<User> subscribers = new HashSet<>(); // new HasSet helps from NullPointerException
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_subscriptions",
+            joinColumns = { @JoinColumn(name = "subscriber_id")},
+            inverseJoinColumns = { @JoinColumn(name = "channel_id")}
+    )
+    private Set<User> subscriptions = new HashSet<>(); // new HasSet helps from NullPointerException
 
     public boolean isAdmin(){
         return roles.contains(Role.ADMIN);
