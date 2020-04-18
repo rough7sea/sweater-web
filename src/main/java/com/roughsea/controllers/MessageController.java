@@ -6,8 +6,6 @@ import com.roughsea.models.dto.MessageDto;
 import com.roughsea.repositories.MessageRepository;
 import com.roughsea.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -24,12 +22,9 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Controller
 public class MessageController {
@@ -121,10 +116,10 @@ public class MessageController {
         return "userMessages";
     }
 
-    @PostMapping("/user-messages/{user}")
+    @PostMapping("/user-messages/{author}")
     public String updateMessages(
             @AuthenticationPrincipal User currentUser,
-            @PathVariable Long user,
+            @PathVariable Long author,
             @RequestParam("id") Message message,
             @RequestParam("text") String text,
             @RequestParam("tag") String tag,
@@ -143,7 +138,7 @@ public class MessageController {
             messageRepository.save(message);
         }
 
-        return "redirect:/user-messages/" + user;
+        return "redirect:/user-messages/" + author;
     }
 
     @GetMapping("/message/{message}/like")

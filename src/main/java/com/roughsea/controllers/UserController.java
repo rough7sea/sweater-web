@@ -54,61 +54,61 @@ public class UserController {
     @GetMapping("profile")
     public String getProfile(
             Model model,
-            @AuthenticationPrincipal User user){
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("email", user.getEmail());
+            @AuthenticationPrincipal User currentUser){
+        model.addAttribute("username", currentUser.getUsername());
+        model.addAttribute("email", currentUser.getEmail());
 
         return "profile";
     }
 
     @PostMapping("profile")
     public String updateProfile(
-            @AuthenticationPrincipal User user,
+            @AuthenticationPrincipal User currentUser,
             @RequestParam String password,
             @RequestParam String email
     ){
 
-        userService.updateProfile(user, password, email);
+        userService.updateProfile(currentUser, password, email);
 
         return "redirect:/user/profile";
     }
 
-    @GetMapping("/subscribe/{user}")
+    @GetMapping("/subscribe/{author}")
     public String subscribe(
             @AuthenticationPrincipal User currentUser,
-            @PathVariable User user
+            @PathVariable User author
     ){
-        userService.subscribe(currentUser, user);
+        userService.subscribe(currentUser, author);
 
 
-        return "redirect:/user-messages/" + user.getId();
+        return "redirect:/user-messages/" + author.getId();
     }
 
-    @GetMapping("/unsubscribe/{user}")
+    @GetMapping("/unsubscribe/{author}")
     public String unsubscribe(
             @AuthenticationPrincipal User currentUser,
-            @PathVariable User user
+            @PathVariable User author
     ){
-        userService.unsubscribe(currentUser, user);
+        userService.unsubscribe(currentUser, author);
 
 
-        return "redirect:/user-messages/" + user.getId();
+        return "redirect:/user-messages/" + author.getId();
     }
 
-    @GetMapping("{type}/{user}/list")
+    @GetMapping("{type}/{author}/list")
     public String userList(
             Model model,
-            @PathVariable User user,
+            @PathVariable User author,
             @PathVariable String type
     ){
 
-        model.addAttribute("userChannel", user);
+        model.addAttribute("userChannel", author);
         model.addAttribute("type", type);
 
         if ("subscriptions".equals(type))
-            model.addAttribute("users", user.getSubscriptions());
+            model.addAttribute("users", author.getSubscriptions());
         else
-            model.addAttribute("users", user.getSubscribers());
+            model.addAttribute("users", author.getSubscribers());
 
         return "subscriptions";
     }
