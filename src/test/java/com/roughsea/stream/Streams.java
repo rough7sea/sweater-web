@@ -1,6 +1,6 @@
 package com.roughsea.stream;
 
-import com.sun.istack.internal.NotNull;
+import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

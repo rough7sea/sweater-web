@@ -1,6 +1,7 @@
 package com.roughsea.test;
 
 import com.roughsea.app.Application;
+import com.roughsea.controllers.MainController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMultipartHttpServletRequestBuilder;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
@@ -33,8 +33,8 @@ public class MainControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-//    @Autowired
-//    private MainController mainController;
+    @Autowired
+    private MainController mainController;
 
     @Test
     public void mainPageTest() throws Exception{
@@ -68,6 +68,7 @@ public class MainControllerTest {
                 .file("file", "123".getBytes())
                 .param("text", "fifth")
                 .param("tag", "new one")
+                .param("url","/main")
                 .with(csrf());
 
         this.mockMvc.perform(multipart)
