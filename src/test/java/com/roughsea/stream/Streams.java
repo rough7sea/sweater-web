@@ -1,11 +1,12 @@
 package com.roughsea.stream;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
-import lombok.*;
+import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import org.junit.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
@@ -77,7 +78,7 @@ public class Streams {
 
     @Test
     public void creation() throws IOException {
-        Stream<String> lines = Files.lines(Paths.get("some.txt"));
+//        Stream<String> lines = Files.lines(Paths.get("some.txt"));
         Stream<Path> list = Files.list(Paths.get("/."));
         Stream<Path> walk = Files.walk(Paths.get("/."), 3);
 
